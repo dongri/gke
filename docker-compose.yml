@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  gke:
+    container_name: gke
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - .:/go/src/github.com/dongri/gke
+    logging:
+      options:
+        max-size: "500k"
+    ports:
+      - "0.0.0.0:8080:8080"
