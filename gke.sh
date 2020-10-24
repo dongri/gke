@@ -9,7 +9,7 @@ function create() {
 
 function delete() {
   echo "🍺 delete cluster"
-  gcloud container clusters delete harutaka-speedtest
+  gcloud container clusters delete gke
 }
 
 function gcr() {
