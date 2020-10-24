@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gke
+  labels:
+    app: gke
+spec:
+  selector:
+    app: gke
+  ports:
+    - name: http
+      port: 8080
+  type: NodePort

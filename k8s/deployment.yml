@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gke
+  labels:
+    app: gke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gke
+  template:
+    metadata:
+      labels:
+        app: gke
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/dongri/gke:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
