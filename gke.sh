@@ -20,8 +20,8 @@ function gcr() {
 function image() {
   echo "🍺 push image"
   docker build -t gke .
-  docker tag gke gcr.io/dongri/gke:latest
-  docker push gcr.io/dongri/gke:latest
+  docker tag gke gcr.io/dongri/gke:v1
+  docker push gcr.io/dongri/gke:v1
 }
 
 function apply() {
