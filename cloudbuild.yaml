@@ -26,6 +26,8 @@ steps:
     args:
       - '-c'
       - |
-        cat ./k8s/deployment.yml | sed "s/gke:latest/gke:80254ae3c585dd3cd4240ca10be32581afb4c8d6/g" | kubectl apply -f -
+        gcloud container clusters get-credentials gke --zone asia-northeast1-a --project $PROJECT_ID
+        apt-get update && apt-get -y install gettext
+        kubectl apply -f <(envsubst <./k8s/deployment.yml | sed 's/gke:latest/gke:$REVISION_ID/g')
 
 timeout: 1800s
