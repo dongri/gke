@@ -1,6 +1,7 @@
 steps:
     # Set up git with key and domain
   - name: 'gcr.io/cloud-builders/docker'
+    waitFor: ['-']
     id: 'docker-build-gke'
     args:
       - 'build'
@@ -9,17 +10,14 @@ steps:
       - '-t'
       - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
       - '.'
-    waitFor: [
-      '-'
-    ]
 
   # Dockerイメージをpush
   - name: 'gcr.io/cloud-builders/docker'
+    waitFor: ['docker-build-gke']
     id: 'docker-push-hash'
     args:
       - 'push'
       - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
-    waitFor: ['docker-build-gke']
 
   # GKEにデプロイ
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -28,7 +26,6 @@ steps:
     args:
       - '-c'
       - |
-        gcloud container clusters get-credentials gke --zone asia-northeast1-a --project $PROJECT_ID
         apt-get update && apt-get -y install gettext
         kubectl apply -f <(envsubst <./k8s/deployment.yml | sed 's/gke:latest/gke:${REVISION_ID}/g')
 
