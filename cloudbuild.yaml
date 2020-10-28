@@ -10,7 +10,7 @@ steps:
       - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
       - '.'
     waitFor: [
-      'docker-pull-gke'
+      '-'
     ]
 
   # Dockerイメージをpush
