@@ -7,6 +7,6 @@ ADD . /go/src/github.com/dongri/gke
 WORKDIR /go/src/github.com/dongri/gke
 RUN go install -v .
 
-ENTRYPOINT /go/bin/gke
-
 EXPOSE 8080
+
+ENTRYPOINT /go/bin/gke

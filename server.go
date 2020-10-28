@@ -23,5 +23,5 @@ func main() {
 		port = defaultPort
 	}
 	log.Printf("Server listening on port %s.\n", port)
-	http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", port), nil)
+	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 }
