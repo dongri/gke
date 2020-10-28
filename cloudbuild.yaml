@@ -21,16 +21,9 @@ steps:
       - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
     waitFor: ['docker-build-gke']
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'docker-push-latest'
-    args:
-      - 'push'
-      - 'gcr.io/$PROJECT_ID/gke:latest'
-    waitFor: ['docker-push-hash']
-
   # GKEにデプロイ
   - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['docker-push-latest']
+    waitFor: ['docker-push-gke']
     entrypoint: 'bash'
     args:
       - '-c'
