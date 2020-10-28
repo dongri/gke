@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: gcr.io/dongri/gke:v1
+          image: gcr.io/dongri/gke:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

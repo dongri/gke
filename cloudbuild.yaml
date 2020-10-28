@@ -1,0 +1,40 @@
+steps:
+    # Set up git with key and domain
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker-build-gke'
+    args:
+      - 'build'
+      - '-f'
+      - 'Dockerfile'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
+      - '.'
+    waitFor: [
+      'docker-pull-gke'
+    ]
+
+  # Dockerイメージをpush
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker-push-hash'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
+    waitFor: ['docker-build-gke']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker-push-latest'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/gke:latest'
+    waitFor: ['docker-build-hash']
+
+  # GKEにデプロイ
+  - name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['docker-build-latest']
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        kubectl apply -f <(envsubst <./k8s/deployment.yaml | sed 's/gcr.io/dongri/gke:latest/gcr.io/dongri/gke:${REVISION_ID}/g')
+
+timeout: 1800s
