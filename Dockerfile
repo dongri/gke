@@ -9,4 +9,5 @@ RUN go install -v .
 
 EXPOSE 8080
 
-ENTRYPOINT /go/bin/gke
+CMD ["/go/bin/gke"]
+
