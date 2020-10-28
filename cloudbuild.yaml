@@ -26,7 +26,6 @@ steps:
     args:
       - '-c'
       - |
-        apt-get update && apt-get -y install gettext
-        kubectl apply -f <(envsubst <./k8s/deployment.yml | sed 's/gke:latest/gke:$REVISION_ID/g')
+        cat ./k8s/deployment.yml | sed "s/gke:latest/gke:$REVISION_ID/g" | kubectl apply -f -
 
 timeout: 1800s
