@@ -23,7 +23,7 @@ steps:
 
   # GKEにデプロイ
   - name: 'gcr.io/cloud-builders/gcloud'
-    waitFor: ['docker-push-gke']
+    waitFor: ['docker-push-hash']
     entrypoint: 'bash'
     args:
       - '-c'
