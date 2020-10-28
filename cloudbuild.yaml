@@ -28,7 +28,7 @@ steps:
     args:
       - '-c'
       - |
-        gcloud container clusters get-credentials --project $PROJECT_ID
+        gcloud container clusters get-credentials gke --project $PROJECT_ID
         apt-get update && apt-get -y install gettext
         kubectl apply -f <(envsubst <./k8s/deployment.yml | sed 's/gke:latest/gke:${REVISION_ID}/g')
 
