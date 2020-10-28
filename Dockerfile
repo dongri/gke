@@ -5,11 +5,8 @@ RUN apk add --no-cache alpine-sdk
 
 ADD . /go/src/github.com/dongri/gke
 WORKDIR /go/src/github.com/dongri/gke
+RUN go install -v .
 
-# Build the binary.
-RUN go mod download
-RUN go build -mod=readonly -v -o server
-
-CMD ["/go/src/github.com/dongri/gke/server"]
+ENTRYPOINT /go/bin/gke
 
 EXPOSE 8080
