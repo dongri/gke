@@ -1,5 +1,5 @@
 steps:
-    # Set up git with key and domain
+  # docker build
   - name: 'gcr.io/cloud-builders/docker'
     waitFor: ['-']
     id: 'docker-build-gke'
@@ -11,7 +11,7 @@ steps:
       - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
       - '.'
 
-  # Dockerイメージをpush
+  # docker push
   - name: 'gcr.io/cloud-builders/docker'
     waitFor: ['docker-build-gke']
     id: 'docker-push-hash'
@@ -19,7 +19,7 @@ steps:
       - 'push'
       - 'gcr.io/$PROJECT_ID/gke:$REVISION_ID'
 
-  # GKEにデプロイ
+  # deploy
   - name: 'gcr.io/cloud-builders/gcloud'
     waitFor: ['docker-push-hash']
     entrypoint: 'bash'
