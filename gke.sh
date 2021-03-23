@@ -4,7 +4,8 @@ function create_cluster() {
   echo "🍺 create cluster"
   gcloud container clusters create gke \
     --machine-type=e2-micro \
-    --num-nodes=1
+    --num-nodes=1 \
+    --region=asia-east1
 }
 
 function delete_cluster() {
@@ -20,8 +21,13 @@ function gcr_auth() {
 function image_push() {
   echo "🍺 push image"
   docker build -t gke .
-  docker tag gke gcr.io/dongri/gke:v1
-  docker push gcr.io/dongri/gke:v1
+  docker tag gke gcr.io/dongri/gke:v3
+  docker push gcr.io/dongri/gke:v3
+}
+
+function apply_deployment() {
+  echo "🍺 apply deployment"
+  kubectl apply -f k8s/deployment.yml
 }
 
 function apply_service() {
@@ -47,6 +53,9 @@ case "$1" in
   image_push)
     image_push
     ;;
+  apply_deployment)
+    apply_deployment
+    ;;
   apply_service)
     apply_service
     ;;
@@ -54,6 +63,6 @@ case "$1" in
     apply_ingress
     ;;
   *)
-    echo "$ gke.sh [ create_cluster | delete_cluster | gcr_auth | image_push | apply_service | apply_ingress ]"
+    echo "$ gke.sh [ create_cluster | delete_cluster | gcr_auth | image_push | apply_deployment | apply_service | apply_ingress ]"
     ;;
 esac
