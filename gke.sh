@@ -5,7 +5,7 @@ function create_cluster() {
   gcloud container clusters create gke \
     --machine-type=e2-micro \
     --num-nodes=1 \
-    --region=asia-east1
+    --region=asia-northeast1
 }
 
 function delete_cluster() {
