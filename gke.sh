@@ -10,7 +10,7 @@ function create_cluster() {
 
 function delete_cluster() {
   echo "🍺 delete cluster"
-  gcloud container clusters delete gke
+  gcloud container clusters delete gke --region=asia-northeast1
 }
 
 function gcr_auth() {
